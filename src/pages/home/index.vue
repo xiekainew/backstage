@@ -20,7 +20,7 @@ import HiForm from '@/components/HiForm'
 export default {
   data () {
     return {
-      test: [2, 1, 3]
+      test: [2, 1, 3, 4, 12, 3, 1, 5, 7]
     }
   },
   components: {
@@ -66,34 +66,56 @@ export default {
      * 插入到已经排序好的数列之中，直到未排序的数列为零；
      */
     insert (arr) {
-      let p = [arr.shift()]
-      console.log(p)
-      while (arr.length) {
-        console.log(p)
-        let a = arr.shift()
-        for (let i = 0, l = p.length; i < l; i++) {
-          if (a < p[i]) {
-            p.splice(i, 0, a)
-          } else if (a >= p[i]) {
-            if (p[i + 1]) {
-              if (a < p[i + 1]) {
-                p.splice(i + 1, 0, a)
-              } else {
-                p.push(a)
-              }
-            } else {
-              p.push(a)
-            }
-          }
+      for (let i = 1, l = arr.length; i < l; i++) {
+        let temp = arr[i]
+        let j = i - 1
+        while (j >= 0 && arr[j] > temp) {
+          arr[j + 1] = arr[j]
+          j--
         }
+        arr[j + 1] = temp
+      }
+      return arr
+    },
+    insertTwo (arr) {
+      let p = [arr.shift()]
+      for (let i = 0, l = arr.length; i < l; i++) {
+        let j = i
+        while (j >= 0 && p[j] > arr[i]) {
+          p[j + 1] = p[j]
+          j--
+        }
+        p[j + 1] = arr[i]
       }
       return p
+    },
+    swap (a, b) {
+      b = b - a
+      a = a + b
+      b = a - b
+      return [a, b]
+    },
+    fibo (n) {
+      let arr = []
+      let i = 0
+      while (i < n) {
+        if (i <= 1) {
+          arr.push(i)
+        } else {
+          arr.push(arr[i - 1] + arr[i - 2])
+        }
+        i++
+      }
+      return arr
     }
   },
   mounted () {
     // console.log(this.bubble(this.test))
     // console.log(this.fast(this.test))
-    console.log(this.insert(this.test))
+    // console.log(this.insert(this.test))
+//    console.log(this.insertTwo(this.test))
+//    console.log(this.swap(1, 2))
+    console.log(this.fibo(8))
     console.log('home')
   }
 }
