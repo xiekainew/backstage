@@ -20,7 +20,7 @@ import HiForm from '@/components/HiForm'
 export default {
   data () {
     return {
-      test: [2, 89, 3, 1, 6, 12, 21, 13, 54, 43, 9]
+      test: [2, 1, 3]
     }
   },
   components: {
@@ -67,32 +67,22 @@ export default {
      */
     insert (arr) {
       let p = [arr.shift()]
+      console.log(p)
       while (arr.length) {
         console.log(p)
         let a = arr.shift()
         for (let i = 0, l = p.length; i < l; i++) {
-          if (p.length === 1) {
-            if (a > p[i]) {
-              p.splice(i + 1, 0, a)
-            } else {
-              p.unshift(a)
-            }
-          } else {
+          if (a < p[i]) {
+            p.splice(i, 0, a)
+          } else if (a >= p[i]) {
             if (p[i + 1]) {
-              console.log(p[i], p[i + 1])
-              if (a < p[i]) {
-                p.splice(i, 0, a)
-              } else if (a >= p[i] && a < p[i + 1]) {
+              if (a < p[i + 1]) {
                 p.splice(i + 1, 0, a)
-              } else if (a >= p[i + 1]) {
+              } else {
                 p.push(a)
               }
             } else {
-              if (a < p[i]) {
-                p.splice(i, 0, a)
-              } else if (a >= p[i]) {
-                p.splice(i + 1, 0, a)
-              }
+              p.push(a)
             }
           }
         }
