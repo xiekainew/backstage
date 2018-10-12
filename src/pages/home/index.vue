@@ -88,13 +88,74 @@ export default {
         }
       }
       return p
+    },
+    init () {
+      function Animal (name) {
+        this.name = name || 'animal' // 属性
+        // 实例方法
+        this.sleep = function () {
+          console.log(this.name + '正在睡觉')
+        }
+      }
+      // 原型方法
+      Animal.prototype.eat = function (food) {
+        console.log(this.name + '正在吃' + food)
+      }
+      let pig = new Animal('pig')
+      pig.sleep()
+      pig.eat('苹果')
+      // 原型链继承
+      function Cat () {
+        this.name = 'catt'
+        // this.sleeps = function () {
+        //   console.log(this.name + '睡觉')
+        // }
+      }
+      Cat.prototype = new Animal()
+      Cat.prototype.name = 'cat'
+      // let cat = new Cat()
+      // cat.sleeps()
+      // console.log(cat.name)
+
+      // 构造函数继承
+      // function Dog (name) {
+      //   Animal.call(this)
+      //   this.name = name || 'dog'
+      // }
+      // let dog = new Dog()
+      // console.log(dog)
+
+      // 实例继承
+      // function Tom (name) {
+      //   let instance = new Animal()
+      //   instance.name = name || 'Tom'
+      //   return instance
+      // }
+      // let tom = new Tom()
+      // console.log(tom)
+      // tom.sleep()
+      // console.log(tom.name)
+
+      // 拷贝继承
+      function Jury (name) {
+        this.name = name || 'jury'
+        let animal = new Animal()
+        for (let i in animal) {
+          Jury.prototype[i] = animal[i]
+        }
+        // Jury.prototype.name = name || 'jury'
+      }
+      let jury = new Jury()
+      console.log(jury)
+      console.log(jury.name)
+      jury.sleep()
     }
   },
   mounted () {
     // console.log(this.bubble(this.test))
     // console.log(this.fast(this.test))
-    console.log(this.insert(this.test))
-    console.log('home')
+    // console.log(this.insert(this.test))
+    this.init()
   }
 }
 </script>
