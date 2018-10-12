@@ -12,11 +12,13 @@
         required="isSpell"
       ></hi-form>
     </el-form>
+    <prototype></prototype>
   </section>
 </template>
 
 <script>
 import HiForm from '@/components/HiForm'
+import Prototype from './prototype.vue'
 export default {
   data () {
     return {
@@ -24,7 +26,8 @@ export default {
     }
   },
   components: {
-    HiForm
+    HiForm,
+    Prototype
   },
   methods: {
     /**
@@ -92,6 +95,7 @@ export default {
     init () {
       function Animal (name) {
         this.name = name || 'animal' // 属性
+        this.type = 'animal-type'
         // 实例方法
         this.sleep = function () {
           console.log(this.name + '正在睡觉')
@@ -102,11 +106,20 @@ export default {
       Animal.prototype.eat = function (food) {
         console.log(this.name + '正在吃' + food)
       }
-      let pig = new Animal('pig')
-      pig.sleep()
-      pig.eat('苹果')
 
-      // 原型链继承
+      /**
+       * 原型链继承
+       *
+       * 非纯粹的继承关系，实例是子类的实例，也是父类的实例
+       * 父类新增原型方法属性，子类都能访问到
+       * 简单，易于实现
+       * 缺点：
+       *    如果要新增原型属性和方法，必须放在new Animal 这样的语句之后进行
+       *    无法实现多继承
+       *    来自原型对象的所有属性被所有实例共享
+       *    创建子类实例时，无法向父类传参
+       * @constructor
+       */
       function Cat () {
         this.name = 'catt'
         // this.sleeps = function () {
@@ -118,26 +131,36 @@ export default {
       Cat.prototype.name = 'cat'
       // let cat = new Cat()
       // cat.sleeps()
-      // console.log(cat.name)
-
-      // 构造函数继承
-      // function Dog (name) {
-      //   Animal.call(this)
-      //   this.name = name || 'dog'
-      // }
-      // let dog = new Dog()
-      // console.log(dog)
+      // console.log(cat.type)
+      // console.log(cat instanceof Animal)
+      // console.log(cat instanceof Cat)
+      /**
+       * 构造函数继承
+       *    解决了1中子类实例共享父类引用属性的问题
+       *    创建子类实例时，可以向父类传递参数
+       *    可以实现多继承
+       * 缺点：
+       *    实例并不是父类的实例，只是子类的实例
+       *    只能继承父类实例的属性和方法，不能继承原型属性和方法
+       *    无法实现函数复用，每个子类都有父类实例函数的副本，影响性能
+       * @param name
+       * @constructor
+       */
+      function Dog (name) {
+        Animal.call(this)
+        this.name = name || 'dog'
+      }
+      let dog = new Dog()
+      console.log(dog)
 
       // 实例继承
-      // function Tom (name) {
-      //   let instance = new Animal()
-      //   instance.name = name || 'Tom'
-      //   return instance
-      // }
-      // let tom = new Tom()
-      // console.log(tom)
-      // tom.sleep()
-      // console.log(tom.name)
+      function Tom (name) {
+        let instance = new Animal()
+        instance.name = name || 'Tom'
+        return instance
+      }
+      let tom = new Tom()
+      console.log(tom)
 
       // 拷贝继承
       function Jury (name) {
@@ -148,11 +171,22 @@ export default {
         }
         // Jury.prototype.name = name || 'jury'
       }
-
       let jury = new Jury()
       console.log(jury)
-      console.log(jury.name)
-      jury.sleep()
+      /**
+       * 组合继承
+       */
+      function Fish (name) {
+        Animal.call(this, name)
+        this.name = name || 'fish'
+      }
+      Fish.prototype = new Animal()
+      Fish.prototype.constructor = Fish
+      let fish = new Fish('小鱼')
+      console.log(fish)
+      console.log(fish instanceof Fish)
+      console.log(fish instanceof Animal)
+      console.log(Fish.prototype.constructor)
     },
     swap (a, b) {
       b = b - a
