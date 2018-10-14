@@ -32,7 +32,6 @@ export default {
       console.log(in1.color)
       in1.sayName()
       in1.sayAge()
-      console.log(SubType.prototype.constructor)
       console.log(SuperType.prototype.constructor)
 
       function Animal () {}
@@ -43,7 +42,6 @@ export default {
         F.prototype = parent.prototype
         child.prototype = new F()
         child.prototype.constructor = child
-        console.log(F.prototype.constructor)
       }
 
       function Cat (name, age) {
@@ -55,11 +53,34 @@ export default {
       // Cat.prototype.constructor = Cat
       let cat = new Cat()
       console.log(cat.type)
-      console.log(Cat.prototype.constructor)
-      console.log(Animal.prototype.constructor)
+      /**
+       * 寄生组合继承
+       */
+      function Dog (name) {
+        Animal.call(this)
+        this.name = name
+      }
+      (function () {
+        let F = function () {}
+        F.prototype = Animal.prototype
+        Dog.prototype = new F()
+        Dog.prototype.constructor = Dog
+      })()
+      let dog = new Dog('沙皮')
+      console.log(dog.name)
+    },
+    test () {
+      (function () {
+        let a = 4
+        console.log(a)
+        console.log(window.a)
+        a = 3
+        console.log(a)
+      })()
     }
   },
   mounted () {
+    this.test()
     this.init()
   }
 }
