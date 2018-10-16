@@ -97,8 +97,8 @@ export default {
       function printNode (value) {
         console.log(value)
       }
-//      tree.inOrderTraverse(printNode)
-//      tree.preOrderTraverse(printNode)
+      tree.inOrderTraverse(printNode)
+      tree.preOrderTraverse(printNode)
       tree.postOrderTraverse(printNode)
     }
   },
