@@ -13,8 +13,8 @@
       ></hi-form>
     </el-form>
     <!--<prototype></prototype>-->
-    <!--<tree></tree>-->
-    <publish></publish>
+    <tree></tree>
+    <!--<publish></publish>-->
   </section>
 </template>
 
