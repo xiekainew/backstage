@@ -48,15 +48,16 @@ export default {
      * 一部分是没有排序好的，每次都从还未排序好的数列中去除一个数，
      * 插入到已经排序好的数列之中，直到未排序的数列为零；
      */
-    insert (arr) {
+    insert (arr) { // [3, 2, 1]
       for (let i = 1, l = arr.length; i < l; i++) {
-        let temp = arr[i]
-        let j = i - 1
+        let temp = arr[i] // 1
+        let j = i - 1 // 1
         while (j >= 0 && arr[j] > temp) {
-          arr[j + 1] = arr[j]
-          j--
+          arr[j + 1] = arr[j] // 2
+          j-- // 0
         }
-        arr[j + 1] = temp
+        console.log(j)
+        arr[j + 1] = temp // 1
       }
       return arr
     },
@@ -201,6 +202,8 @@ export default {
     }
   },
   mounted () {
+    let t = [2, 1]
+    console.log(this.insert(t))
   }
 }
 </script>

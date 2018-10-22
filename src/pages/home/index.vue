@@ -13,8 +13,9 @@
       ></hi-form>
     </el-form>
     <!--<prototype></prototype>-->
-    <tree></tree>
+    <!--<tree></tree>-->
     <!--<publish></publish>-->
+    <order>Order</order>
   </section>
 </template>
 
@@ -23,6 +24,7 @@ import HiForm from '@/components/HiForm'
 import Prototype from './prototype.vue'
 import Tree from './tree'
 import Publish from './test/publish'
+import Order from './order.vue'
 export default {
   data () {
     return {
@@ -32,7 +34,8 @@ export default {
     HiForm,
     Prototype,
     Tree,
-    Publish
+    Publish,
+    Order
   },
   methods: {
   },
