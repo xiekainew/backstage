@@ -181,7 +181,7 @@ export default {
       let fish = new Fish('小鱼')
       console.log(fish)
       /**
-       * ﻿寄生组合式继承
+       * 寄生组合式继承
        */
       function Mao (name) {
         Animal.call(this, name)
