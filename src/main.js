@@ -7,6 +7,8 @@ import 'element-ui/lib/theme-chalk/index.css'
 import ElementUi from 'element-ui'
 import store from './store/index.js'
 
+import './icons'
+
 Vue.config.productionTip = false
 Vue.use(ElementUi)
 /* eslint-disable no-new */

@@ -13,8 +13,11 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: '/',
       redirect: '/dashboard'
+    }, {
+      path: '/login',
+      name: 'login',
+      component: () => import('@/pages/login')
     }, {
       path: '/',
       component: Layout,
