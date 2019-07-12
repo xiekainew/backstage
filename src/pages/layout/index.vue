@@ -3,7 +3,11 @@
     <Menu class=layout-menu></Menu>
     <div class="layout-content">
       <Navigation></Navigation>
-      <router-view></router-view>
+      <div class="layout-content__main">
+        <transition name="router-fade" appear>
+          <router-view></router-view>
+        </transition>
+      </div>
     </div>
   </section>
 </template>
@@ -42,6 +46,16 @@ export default {
   &-content{
     // margin-left: 200px;
     overflow: hidden;
+    &__main{
+      padding: 20px;
+    }
   }
+}
+.router-fade-enter, .router-fade-leave-to{
+  opacity: 0;
+  transform: translateX(30px);
+}
+.router-fade-enter-active{
+  transition: all 0.3s ease;
 }
 </style>

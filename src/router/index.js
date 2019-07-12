@@ -2,6 +2,9 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Layout from '@/pages/layout'
 import Home from '@/pages/home'
+import Dashboard from '@/pages/dashboard'
+import User from '@/pages/user'
+import Database from '@/pages/database'
 
 Vue.use(Router)
 
@@ -11,7 +14,15 @@ export default new Router({
     {
       path: '/',
       name: '/',
-      redirect: '/home'
+      redirect: '/dashboard'
+    }, {
+      path: '/',
+      component: Layout,
+      children: [{
+        path: '/dashboard',
+        name: 'dashboard',
+        component: Dashboard
+      }]
     }, {
       path: '/',
       component: Layout,
@@ -19,6 +30,22 @@ export default new Router({
         path: '/home',
         name: 'home',
         component: Home
+      }]
+    }, {
+      path: '/',
+      component: Layout,
+      children: [{
+        path: '/user',
+        name: 'user',
+        component: User
+      }]
+    }, {
+      path: '/',
+      component: Layout,
+      children: [{
+        path: '/database',
+        name: 'database',
+        component: Database
       }]
     }
   ]

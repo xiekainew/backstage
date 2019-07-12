@@ -8,7 +8,6 @@ import ElementUi from 'element-ui'
 import store from './store/index.js'
 
 Vue.config.productionTip = false
-
 Vue.use(ElementUi)
 /* eslint-disable no-new */
 new Vue({
