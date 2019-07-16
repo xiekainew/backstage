@@ -50,6 +50,14 @@ export default new Router({
         name: 'database',
         component: Database
       }]
+    }, {
+      path: '/',
+      component: Layout,
+      children: [{
+        path: '/menu',
+        name: 'menu',
+        component: () => import('@/pages/config/menu.vue')
+      }]
     }
   ]
 })
