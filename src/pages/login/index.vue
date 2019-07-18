@@ -150,6 +150,7 @@ export default {
             this.loading = false
             if (res.status === 0) {
                 this.$message.success(res.msg)
+                this.$store.commit('updateToken', res.data.token)
                 this.$router.push({
                     path: '/'
                 })
