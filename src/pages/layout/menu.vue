@@ -51,29 +51,22 @@
 	export default {
 		data() {
 			return {
-				menuList: []
 			}
 		},
 		computed: {
 			...Vuex.mapState({
-				isCollapse: state => state.isCollapse
+				isCollapse: state => state.isCollapse,
+                menuList: state => state.menuList
 			}),
 			defaultActive() {
 				return this.$route.path
 			}
 		},
 		mounted() {
-			this.fetchList()
+			this.$store.dispatch('getMenu')
 		},
 		methods: {
-      fetchList() {
-        getMenuList().then(res => {
-          console.log(res)
-          if (res.status === 0) {
-            this.menuList = res.data || []
-          }
-        })
-      }
+
 		}
 	}
 </script>

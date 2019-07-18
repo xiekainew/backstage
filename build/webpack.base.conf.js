@@ -91,6 +91,12 @@ module.exports = {
           limit: 10000,
           name: utils.assetsPath('img/[name].[hash:7].[ext]')
         }
+      },
+      {
+        test: /.(js|vue)$/,
+        enforce: 'pre',
+        loader: 'eslint-loader',
+        include: [path.resolve(__dirname, 'src')]
       }
     ]
   },

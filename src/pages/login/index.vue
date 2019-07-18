@@ -6,15 +6,15 @@
         <h3 class="title">Welcome</h3>
       </div>
 
-      <el-form-item prop="username">
+      <el-form-item prop="nick">
         <span class="svg-container">
           <svg-icon icon-class="user" />
         </span>
         <el-input
-          ref="username"
-          v-model="loginForm.username"
-          placeholder="Username"
-          name="username"
+          ref="nick"
+          v-model="loginForm.nick"
+          placeholder="nick"
+          name="nick"
           type="text"
           tabindex="1"
           autocomplete="on"
@@ -55,6 +55,9 @@
 <script>
   /* eslint-disable */
 import { validUsername } from '@/utils/validate'
+import {
+    goLogin
+} from '@/api/common.js'
 
 export default {
   name: 'login',
@@ -75,11 +78,11 @@ export default {
     }
     return {
       loginForm: {
-        username: 'admin',
-        password: '111111'
+        nick: 'admin',
+        password: '123123'
       },
       loginRules: {
-        username: [{ required: true, trigger: 'blur', validator: validateUsername }],
+        nick: [{ required: true, trigger: 'blur', validator: validateUsername }],
         password: [{ required: true, trigger: 'blur', validator: validatePassword }]
       },
       passwordType: 'password',
@@ -105,8 +108,8 @@ export default {
     // window.addEventListener('storage', this.afterQRScan)
   },
   mounted() {
-    if (this.loginForm.username === '') {
-      this.$refs.username.focus()
+    if (this.loginForm.nick === '') {
+      this.$refs.nick.focus()
     } else if (this.loginForm.password === '') {
       this.$refs.password.focus()
     }
@@ -143,14 +146,18 @@ export default {
         if (valid) {
           this.loading = true
           console.log(this.loginForm)
-          // this.$store.dispatch('user/login', this.loginForm)
-          //   .then(() => {
-          //     this.$router.push({ path: this.redirect || '/', query: this.otherQuery })
-          //     this.loading = false
-          //   })
-          //   .catch(() => {
-          //     this.loading = false
-          //   })
+          goLogin(this.loginForm).then(res => {
+            this.loading = false
+            if (res.status === 0) {
+                this.$message.success(res.msg)
+                this.$router.push({
+                    path: '/'
+                })
+            } else {
+                this.$message.warning(res.msg)
+            }
+            console.log(res)
+          })
         } else {
           console.log('error submit!!')
           return false

@@ -1,63 +1,26 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Layout from '@/pages/layout'
-import Home from '@/pages/home'
-import Dashboard from '@/pages/dashboard'
-import User from '@/pages/user'
-import Database from '@/pages/database'
+
+import routes from './routers.js'
 
 Vue.use(Router)
 
-export default new Router({
+let router = new Router({
   mode: 'history',
-  routes: [
-    {
-      path: '/',
-      redirect: '/dashboard'
-    }, {
-      path: '/login',
-      name: 'login',
-      component: () => import('@/pages/login')
-    }, {
-      path: '/',
-      component: Layout,
-      children: [{
-        path: '/dashboard',
-        name: 'dashboard',
-        component: Dashboard
-      }]
-    }, {
-      path: '/',
-      component: Layout,
-      children: [{
-        path: '/home',
-        name: 'home',
-        component: Home
-      }]
-    }, {
-      path: '/',
-      component: Layout,
-      children: [{
-        path: '/user',
-        name: 'user',
-        component: User
-      }]
-    }, {
-      path: '/',
-      component: Layout,
-      children: [{
-        path: '/database',
-        name: 'database',
-        component: Database
-      }]
-    }, {
-      path: '/',
-      component: Layout,
-      children: [{
-        path: '/menu',
-        name: 'menu',
-        component: () => import('@/pages/config/menu.vue')
-      }]
+  scrollBehavior (to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition
+    } else {
+      return { x: 0, y: 0 }
     }
-  ]
+  },
+  routes
 })
+
+router.beforeEach((to, from, next) => {
+    console.log(to)
+    console.log(from)
+    next()
+})
+
+export default router

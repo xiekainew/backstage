@@ -74,7 +74,7 @@
                     </template>
                 </template>
                 <el-table-column
-                    v-for="(item0, index) in item.mergeHeader"
+                    v-for="(item0) in item.mergeHeader"
                     :prop="item0.headerKey"
                     :label="item0.headerName"
                     width="120"
