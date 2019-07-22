@@ -19,3 +19,10 @@ export const getUserList = () => {
 export const goLogin = (data) => {
     return Axios.post('/proxy/server/login', data)
 }
+
+export const register = (data) => {
+    return Axios.post('/proxy/server/register', data)
+}
+export const deleteUser = (data) => {
+    return Axios.post('/proxy/server/delete', data)
+}
