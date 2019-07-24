@@ -145,12 +145,12 @@ export default {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true
-          console.log(this.loginForm)
+
           goLogin(this.loginForm).then(res => {
             this.loading = false
             if (res.status === 0) {
                 this.$message.success(res.msg)
-                this.$store.commit('updateToken', res.data.token)
+                this.$store.commit('updateToken', res.data)
                 this.$router.push({
                     path: '/'
                 })

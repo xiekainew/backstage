@@ -52,6 +52,14 @@ const routes = [
         name: 'menu',
         component: () => import('@/pages/config/menu.vue')
       }]
+    }, {
+      path: '/',
+      component: Layout,
+      children: [{
+        path: '/image',
+        name: 'image',
+        component: () => import('@/pages/picture/index.vue')
+      }]
     }
   ]
 

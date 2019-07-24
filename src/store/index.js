@@ -10,7 +10,8 @@ const vuexLocal = new VuePersist({
     key: 'vuexbase',
     storage: window.localStorage,
     reducer: (state) => ({
-        token: state.token
+        token: state.token,
+        qiniu: state.qiniu
     })
 })
 
@@ -18,7 +19,8 @@ export default new Vuex.Store({
 	state: {
 		isCollapse: false,
         menuList: [],
-        token: ''
+        token: '',
+        qiniu: ''
 	},
 	mutations: {
 		updateCollapse(state, data) {
@@ -28,7 +30,9 @@ export default new Vuex.Store({
             state.menuList = data
         },
         updateToken(state, data) {
-            state.token = data
+            if (!data) return
+            state.token = data.token
+            state.qiniu = data.qiniu
         }
 	},
 	actions: {
