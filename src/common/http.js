@@ -17,7 +17,7 @@ Axios.interceptors.response.use(response => {
         Message.warning('请登录')
         Store.commit('updateToken', null)
         setTimeout(() => {
-            window.location.href = '/login'
+            window.location.href = '/#/login'
         }, 1000)
     }
     return response.data

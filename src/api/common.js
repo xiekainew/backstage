@@ -1,28 +1,29 @@
 import Axios from '../common/http.js'
+console.log(process.env.PORT)
 
 export const getMenuList = () => {
-  return Axios.get('/proxy/menu/list')
+  return Axios.get('/api/menu/list')
 }
 
 export const createMenu = (data) => {
-  return Axios.post('/proxy/menu/create', data)
+  return Axios.post('/api/menu/create', data)
 }
 
 export const deleteMenu = (data) => {
-  return Axios.post('/proxy/menu/delete', data)
+  return Axios.post('/api/menu/delete', data)
 }
 
 export const getUserList = () => {
-    return Axios.get('/proxy/server/user/list')
+    return Axios.get('/api/server/user/list')
 }
 
 export const goLogin = (data) => {
-    return Axios.post('/proxy/server/login', data)
+    return Axios.post('/api/server/login', data)
 }
 
 export const register = (data) => {
-    return Axios.post('/proxy/server/register', data)
+    return Axios.post('/api/server/register', data)
 }
 export const deleteUser = (data) => {
-    return Axios.post('/proxy/server/delete', data)
+    return Axios.post('/api/server/delete', data)
 }
