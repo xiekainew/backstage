@@ -3,6 +3,7 @@ import {
     Message
 } from 'element-ui'
 import Store from '@/store'
+import Router from '../router/index.js'
 // Axios.defaults.baseURL = 'http://10.220.9.204:2001'
 
 Axios.interceptors.request.use(config => {
@@ -17,8 +18,8 @@ Axios.interceptors.response.use(response => {
         Message.warning('请登录')
         Store.commit('updateToken', null)
         setTimeout(() => {
-            window.location.href = '/#/login'
-        }, 1000)
+            Router.push('/login')
+        }, 500)
     }
     return response.data
 }, error => {

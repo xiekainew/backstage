@@ -63,7 +63,6 @@
 			}
 		},
 		mounted() {
-			this.$store.dispatch('getMenu')
 		},
 		methods: {
 

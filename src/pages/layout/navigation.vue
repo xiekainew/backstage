@@ -1,6 +1,7 @@
 <template>
 	<div class="navigation">
 		<span class='icon' :class="[!isCollapse ? 'el-icon-s-unfold' : 'el-icon-s-fold']" @click="changeMenu"></span>
+
 	</div>
 </template>
 
@@ -18,7 +19,6 @@
 			})
 		},
 		mounted() {
-
 		},
 		methods: {
 			changeMenu() {

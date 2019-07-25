@@ -37,10 +37,15 @@ export default new Vuex.Store({
 	},
 	actions: {
         getMenu({commit}, data) {
-            getMenuList().then(res => {
-                if (res.status === 0) {
-                    commit('updateMenuList', res.data || [])
-                }
+            return new Promise((resolve, reject) => {
+                getMenuList().then(res => {
+                    if (res.status === 0) {
+                        commit('updateMenuList', res.data || [])
+                        resolve()
+                    } else {
+                        reject(res.msg)
+                    }
+                })
             })
         }
 	},
