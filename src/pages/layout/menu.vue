@@ -59,10 +59,11 @@
                 menuList: state => state.menuList
 			}),
 			defaultActive() {
-				return this.$route.path
+				return this.$route.meta.activePath || this.$route.path
 			}
 		},
 		mounted() {
+			console.log(this.$route)
 		},
 		methods: {
 

@@ -27,3 +27,10 @@ export const register = (data) => {
 export const deleteUser = (data) => {
     return Axios.post('/api/server/delete', data)
 }
+
+export const createBlog = (data) => {
+    return Axios.post('/api/blog/create', data)
+}
+export const getBlogList = (data) => {
+    return Axios.get('/api/blog/list', data)
+}

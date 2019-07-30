@@ -1,4 +1,6 @@
 import Layout from '@/pages/layout'
+import Blog from '@/pages/markdown'
+import Markdown from '@/pages/markdown/markdown'
 
 let routes = [
   {
@@ -8,9 +10,19 @@ let routes = [
     path: '/login',
     name: 'login',
     component: () => import('@/pages/login/index.vue')
+  }, {
+    path: '/',
+    component: Layout,
+    children: [{
+      path: '/markdown',
+      name: 'markdown',
+      meta: {
+        activePath: '/blog'
+      },
+      component: Markdown
+    }]
   }
 ]
-
 export default routes
 
 export const asyncRouterMap = {
@@ -19,7 +31,7 @@ export const asyncRouterMap = {
     children: [{
       path: '/dashboard',
       name: 'dashboard',
-      component: () => import('@/pages/dashboard')
+      component: () => import(/* webpackChunkName: "test-group" */ '@/pages/dashboard')
     }, {
       path: '/home',
       name: 'home',
@@ -27,11 +39,11 @@ export const asyncRouterMap = {
     }, {
       path: '/user',
       name: 'user',
-      component: () => import('@/pages/user')
+      component: () => import(/* webpackChunkName: "test-group" */ '@/pages/user')
     }, {
       path: '/database',
       name: 'database',
-      component: () => import('@/pages/database')
+      component: () => import(/* webpackChunkName: "test-group" */ '@/pages/database')
     }, {
       path: '/menu',
       name: 'menu',
@@ -39,6 +51,10 @@ export const asyncRouterMap = {
     }, {
       path: '/image',
       name: 'image',
-      component: () => import('@/pages/picture/index.vue')
+      component: () => import(/* webpackChunkName: "test-group" */ '@/pages/picture/index.vue')
+    }, {
+      path: '/blog',
+      name: 'blog',
+      component: Blog
     }]
   }
