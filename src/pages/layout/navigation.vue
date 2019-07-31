@@ -11,8 +11,7 @@
 			<span class="navigation-right__name">{{userInfo.name}}</span>
 			<el-dropdown @command="handleCommand">
 				<span >
-					<span class="navigation-right__header"
-						:style="{backgroundImage:`url(${userInfo.avatar || ''})`}"
+					<span class="navigation-right__header" :style="{backgroundImage:`url('${userInfo.avatar}')`}"
 					></span>
 					<!-- <i class="el-icon-arrow-down el-icon--right"></i> -->
 				</span>
