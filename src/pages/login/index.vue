@@ -152,7 +152,7 @@ export default {
                 this.$message.success(res.msg)
                 this.$store.commit('updateToken', res.data)
                 this.$router.push({
-                    path: '/'
+                    path: '/dashboard'
                 })
             } else {
                 this.$message.warning(res.msg)

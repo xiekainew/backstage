@@ -34,3 +34,7 @@ export const createBlog = (data) => {
 export const getBlogList = (data) => {
     return Axios.get('/api/blog/list', data)
 }
+
+export const deleteBlog = (data) => {
+    return Axios.post('/api/blog/delete', data)
+}

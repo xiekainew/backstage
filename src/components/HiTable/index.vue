@@ -407,4 +407,8 @@
 
     }
     }
+    .table-a-wrapper{
+        color: #409EFF !important;
+        cursor: pointer;
+    }
 </style>

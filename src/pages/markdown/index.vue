@@ -8,14 +8,28 @@
 		<hi-table
 			:tableData="list"
 			:tableHeaders="tableHeaders"
+			:clickData="clickData"
+			@clickRow="clickFirst"
+			@clickRight="clickRight"
 		></hi-table>
+		<el-dialog :title="blogData.title" center :visible.sync="showVisible">
+			<mavon-editor
+				v-html="blogData.content"
+				defaultOpen='preview'
+				:subfield="false"
+				:toolbarsFlag="false"
+				:boxShadow="false"
+			></mavon-editor>
+		</el-dialog>
 	</div>
 </template>
 <script type="text/javascript">
 	import HiTable from '@/components/HiTable'
 	import {
-		getBlogList
+		getBlogList,
+		deleteBlog
 	} from '@/api/common'
+	import 'mavon-editor/dist/css/index.css'
 	export default {
 		data() {
 			return {
@@ -23,14 +37,19 @@
 				list: [],
 				tableHeaders: [{
 					headerKey: 'title',
-					headerName: '标题'
-				}, {
-					headerKey: 'content',
-					headerName: '内容'
+					headerName: '标题',
+					click: true,
+					ableInput: true
 				}, {
 					headerKey: 'create',
 					headerName: '发布时间',
 					type: 'date'
+				}],
+				showVisible: false,
+				blogData: {},
+				clickData: [{
+					label: '删除',
+					value: 'del'
 				}]
 			}
 		},
@@ -48,6 +67,28 @@
 				getBlogList().then(res => {
 					console.log(res)
 					this.list = res.data || []
+				})
+			},
+			clickFirst(value, item, index) {
+				this.showVisible = true
+				this.blogData = value
+			},
+			clickRight(data) {
+				switch (data.type) {
+					case 'del':
+						this.deleteBlog(data.row.id)
+						break
+					default:
+						// statements_def
+						break
+				}
+			},
+			deleteBlog(id) {
+				this.$confirm('确认删除吗？', '提示信息', {type: 'warning'}).then(() => {
+					deleteBlog({id}).then(res => {
+						this.$message.success('删除成功')
+						this.fetchList()
+					})
 				})
 			}
 		}

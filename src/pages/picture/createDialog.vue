@@ -16,7 +16,7 @@
 	import * as qiniu from 'qiniu-js'
 	import HiForm from '@/components/HiForm'
 	import Vuex from 'vuex'
-	console.log(qiniu)
+
 	export default {
 		data() {
 			return {
