@@ -11,7 +11,8 @@ const vuexLocal = new VuePersist({
     storage: window.localStorage,
     reducer: (state) => ({
         token: state.token,
-        qiniu: state.qiniu
+        qiniu: state.qiniu,
+        userInfo: state.userInfo
     })
 })
 
@@ -20,9 +21,13 @@ export default new Vuex.Store({
 		isCollapse: false,
         menuList: [],
         token: '',
-        qiniu: ''
+        qiniu: '',
+        userInfo: {}
 	},
 	mutations: {
+        updateUserInfo(state, data) {
+            state.userInfo = data
+        },
 		updateCollapse(state, data) {
 			state.isCollapse = data
 		},

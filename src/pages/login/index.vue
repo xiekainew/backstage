@@ -1,5 +1,6 @@
 <template>
   <div class="login-container">
+    <canvas height="640" width="100%" id="canvas" class="canvas"></canvas>
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" autocomplete="on" label-position="left">
 
       <div class="title-container">
@@ -108,6 +109,7 @@ export default {
     // window.addEventListener('storage', this.afterQRScan)
   },
   mounted() {
+    this.handleCanvas()
     if (this.loginForm.nick === '') {
       this.$refs.nick.focus()
     } else if (this.loginForm.password === '') {
@@ -151,6 +153,11 @@ export default {
             if (res.status === 0) {
                 this.$message.success(res.msg)
                 this.$store.commit('updateToken', res.data)
+                this.$store.commit('updateUserInfo', {
+                  name: res.data.name,
+                  avatar: res.data.avatar,
+                  id: res.data.id
+                })
                 this.$router.push({
                     path: '/dashboard'
                 })
@@ -172,25 +179,168 @@ export default {
         }
         return acc
       }, {})
+    },
+    handleCanvas() {
+      var canvasEl = document.getElementById('canvas')
+      var ctx = canvasEl.getContext('2d')
+      var mousePos = [0, 0]  //鼠标位置
+
+      var easingFactor = 5.0
+      var backgroundColor = '#2d3a4b'
+      var nodeColor = '#20a0ff'
+      var edgeColor = '#20a0ff'
+
+      var nodes = []
+      var edges = []
+
+      canvasEl.width = document.body.clientWidth
+      canvasEl.height = document.body.clientHeight
+
+      function constructNodes() {  //生成节点
+          for (var i = 0; i < 15; i++) {
+              var node = {
+                  drivenByMouse: i == 0,
+                  x: Math.random() * canvasEl.width,
+                  y: Math.random() * canvasEl.height,
+                  vx: Math.random() * 1 - 0.5,
+                  vy: Math.random() * 1 - 0.5,
+                  radius: Math.random() > 0.9 ? 2 + Math.random() * 2 : 1 + Math.random() * 2
+              }
+
+              nodes.push(node)
+          }
+
+          nodes.forEach(function (e) {
+              nodes.forEach(function (e2) {
+                  if (e == e2) {
+                      return
+                  }
+
+                  var edge = {
+                      from: e,
+                      to: e2
+                  }
+
+                  addEdge(edge)
+              })
+          })
+      }
+
+      function addEdge(edge) {     //添加链接线
+          var ignore = false
+
+          edges.forEach(function (e) {
+              if (e.from == edge.from && e.to == edge.to) {
+                  ignore = true
+              }
+
+              if (e.to == edge.from && e.from == edge.to) {
+                  ignore = true
+              }
+          })
+
+          if (!ignore) {
+              edges.push(edge)
+          }
+      }
+
+      function step() {
+          nodes.forEach(function (e) {
+              if (e.drivenByMouse) {
+                  return
+              }
+
+              e.x += e.vx
+              e.y += e.vy
+
+              function clamp(min, max, value) {
+                  if (value > max) {
+                      return max
+                  } else if (value < min) {
+                      return min
+                  } else {
+                      return value
+                  }
+              }
+
+              if (e.x <= 0 || e.x >= canvasEl.width) {
+                  e.vx *= -1
+                  e.x = clamp(0, canvasEl.width, e.x)
+              }
+
+              if (e.y <= 0 || e.y >= canvasEl.height) {
+                  e.vy *= -1
+                  e.y = clamp(0, canvasEl.height, e.y)
+              }
+          })
+
+          adjustNodeDrivenByMouse()
+          render()
+          window.requestAnimationFrame(step)
+      }
+
+      function adjustNodeDrivenByMouse() {
+          nodes[0].x += (mousePos[0] - nodes[0].x) / easingFactor
+          nodes[0].y += (mousePos[1] - nodes[0].y) / easingFactor
+      }
+
+      function lengthOfEdge(edge) {         //边框的长度
+          return Math.sqrt(Math.pow((edge.from.x - edge.to.x), 2) + Math.pow((edge.from.y - edge.to.y), 2))
+      }
+
+      function render() {
+          ctx.fillStyle = backgroundColor
+          ctx.fillRect(0, 0, canvasEl.width, canvasEl.height)
+
+          edges.forEach(function (e) {
+              var l = lengthOfEdge(e)
+              var threshold = canvasEl.width / 4
+
+              if (l > threshold) {
+                  return
+              }
+
+              ctx.strokeStyle = edgeColor;
+              ctx.lineWidth = (1.0 - l / threshold) * 2;
+              ctx.globalAlpha = 1.0 - l / threshold;
+              ctx.beginPath()
+              ctx.moveTo(e.from.x, e.from.y)
+              ctx.lineTo(e.to.x, e.to.y)
+              ctx.stroke()
+          })
+          ctx.globalAlpha = 1.0
+
+          nodes.forEach(function (e) {
+              if (e.drivenByMouse) {
+                  return
+              }
+
+              ctx.fillStyle = nodeColor
+              ctx.beginPath()
+              ctx.arc(e.x, e.y, e.radius, 0, 2 * Math.PI)
+              ctx.fill()
+          })
+      }
+
+      window.onresize = function () {
+          canvasEl.width = document.body.clientWidth
+          canvasEl.height = document.body.clientHeight
+
+          if (nodes.length == 0) {
+              constructNodes()
+          }
+
+          render()
+      }
+
+      window.onmousemove = function (e) {
+          mousePos[0] = e.clientX
+          mousePos[1] = e.clientY
+      }
+
+      window.onresize() // trigger the event manually.
+      window.requestAnimationFrame(step)
     }
-    // afterQRScan() {
-    //   if (e.key === 'x-admin-oauth-code') {
-    //     const code = getQueryObject(e.newValue)
-    //     const codeMap = {
-    //       wechat: 'code',
-    //       tencent: 'code'
-    //     }
-    //     const type = codeMap[this.auth_type]
-    //     const codeName = code[type]
-    //     if (codeName) {
-    //       this.$store.dispatch('LoginByThirdparty', codeName).then(() => {
-    //         this.$router.push({ path: this.redirect || '/' })
-    //       })
-    //     } else {
-    //       alert('第三方登录失败')
-    //     }
-    //   }
-    // }
   }
 }
 </script>
@@ -252,7 +402,11 @@ $light_gray:#eee;
   width: 100%;
   background-color: $bg;
   overflow: hidden;
-
+  .canvas{
+    position: absolute;
+    background-color: $bg;
+    z-index: 1;
+  }
   .login-form {
     position: relative;
     width: 520px;
@@ -260,6 +414,7 @@ $light_gray:#eee;
     padding: 160px 35px 0;
     margin: 0 auto;
     overflow: hidden;
+    z-index: 2;
   }
 
   .tips {

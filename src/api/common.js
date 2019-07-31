@@ -16,6 +16,9 @@ export const deleteMenu = (data) => {
 export const getUserList = () => {
     return Axios.get('/api/server/user/list')
 }
+export const updateUser = (data) => {
+    return Axios.post('/api/server/update', data)
+}
 
 export const goLogin = (data) => {
     return Axios.post('/api/server/login', data)

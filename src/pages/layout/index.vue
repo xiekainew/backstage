@@ -48,6 +48,7 @@ export default {
     overflow: hidden;
     &__main{
       padding: 20px;
+      height: 100%;
     }
   }
 }
