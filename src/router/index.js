@@ -3,11 +3,12 @@ import Router from 'vue-router'
 import Store from '../store'
 
 import routes, {asyncRouterMap} from './routers.js'
-console.log(asyncRouterMap)
+
 Vue.use(Router)
 
 let router = new Router({
   mode: 'history',
+  // base: '/app/',
   scrollBehavior (to, from, savedPosition) {
     if (savedPosition) {
       return savedPosition
